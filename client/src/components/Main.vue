@@ -1,22 +1,19 @@
 <template>
   <div>
-    <h1 class="title is-one has-text-centered">{{ msg }}</h1>
+    <Navbar />
     <Plotr />
   </div>
 </template>
 
 <script>
 import Plotr from './Plotr/Plotr';
+import Navbar from './Main/Navbar';
 
 export default {
   name: 'Main',
   components: {
+    Navbar,
     Plotr,
-  },
-  data() {
-    return {
-      msg: 'AVNGR',
-    };
   },
 };
 </script>
