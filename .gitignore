@@ -12,3 +12,10 @@ yarn-error.log*
 *.ntvs*
 *.njsproj
 *.sln
+
+# Data Files
+*.xlsx
+*.csv
+
+# Compiled Files
+*.pyc
