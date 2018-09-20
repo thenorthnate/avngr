@@ -13,13 +13,25 @@
 
     <div id="navbarExampleTransparentExample" class="navbar-menu">
       <div class="navbar-start">
-        <a class="navbar-item" href="#">
+        <a
+          class="navbar-item"
+          v-bind:class="{'has-text-link': persona == 'Loadr'}"
+          v-on:click="$emit('cp', 'Loadr')"
+        >
           Loadr
         </a>
-        <a class="navbar-item" href="#">
+        <a
+          class="navbar-item"
+          v-bind:class="{'has-text-link': persona == 'Analyzr'}"
+          v-on:click="$emit('cp', 'Analyzr')"
+        >
           Analyzr
         </a>
-        <a class="navbar-item" href="#">
+        <a
+          class="navbar-item"
+          v-bind:class="{'has-text-link': persona == 'Plotr'}"
+          v-on:click="$emit('cp', 'Plotr')"
+        >
           Plotr
         </a>
         <div class="navbar-item has-dropdown is-hoverable">
@@ -77,6 +89,13 @@
           </div>
 
         </div>
+        <div class="navbar-item">
+          <button class="button">
+            <span class="icon">
+              <font-awesome-icon icon="cog" />
+            </span>
+          </button>
+        </div>
       </div>
     </div>
   </nav>
@@ -85,6 +104,7 @@
 <script>
 export default {
   name: 'Navbar',
+  props: ['persona'],
   methods: {
     handleFile(fileName, fileList) {
       this.$emit('file', fileList);

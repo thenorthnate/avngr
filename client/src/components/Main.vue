@@ -1,10 +1,13 @@
 <template>
   <div>
     <Navbar
-    v-on:file="uploadFile"
+      v-on:file="uploadFile"
+      v-on:cp="changePersona"
+      v-bind:persona="persona"
     />
     <Showr
     v-bind:appData="appData"
+    v-bind:persona="persona"
     />
   </div>
 </template>
@@ -24,6 +27,7 @@ export default {
     return {
       dmPath: 'http://localhost:5000/data-manager',
       fuPath: 'http://localhost:5000/file-upload',
+      persona: 'Loadr',
       headers: {
         json: { headers: { 'Content-Type': 'application/json' } },
         file: { headers: { 'Content-Type': 'multipart/form-data' } },
@@ -47,6 +51,9 @@ export default {
           // eslint-disable-next-line
           console.error(error);
         });
+    },
+    changePersona(newPersona) {
+      this.persona = newPersona;
     },
     postToDataManager(payload) {
       axios.post(this.dmPath, payload, this.headers.json)

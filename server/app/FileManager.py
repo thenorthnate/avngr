@@ -31,14 +31,6 @@ class FileManager:
     def read_file(self, filename):
         '''Reads a file into memory'''
         data = pandas.read_csv(self.dataDir + filename, skipinitialspace=True)
-        for item in data:
-            try:
-                data[item] = pandas.to_numeric(data[item])
-            except ValueError:
-                try:
-                    data[item] = pandas.to_datetime(data[item])
-                except ValueError:
-                    pass
         return data
 
     def write_file(self, filename):

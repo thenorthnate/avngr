@@ -16,8 +16,8 @@
           </li>
         </ul>
       </div>
-      <smData
-      v-if="active == 'Data'"
+      <smFiles
+      v-if="active == 'Files'"
       v-bind:appData="appData"
       />
       <smPlot
@@ -28,13 +28,13 @@
 </template>
 
 <script>
-import smData from './smData';
+import smFiles from './smFiles';
 import smPlot from './smPlot';
 
 export default {
   name: 'smMenu',
   components: {
-    smData,
+    smFiles,
     smPlot,
   },
   props: ['appData'],
@@ -42,12 +42,12 @@ export default {
     return {
       msg: 'AVNGR',
       menuOptions: [
-        { name: 'Data', id: 0 },
+        { name: 'Files', id: 0 },
         { name: 'Filter', id: 1 },
         { name: 'Plot', id: 2 },
         { name: 'Format', id: 3 },
       ],
-      active: 'Data',
+      active: 'Files',
     };
   },
 };
