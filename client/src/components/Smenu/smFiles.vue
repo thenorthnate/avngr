@@ -1,5 +1,11 @@
 <template>
   <div>
+    <nav class="breadcrumb" aria-label="breadcrumbs">
+      <ul>
+        <li><a href="#">Data</a></li>
+        <li class="is-active"><a href="#" aria-current="page">Folder 1</a></li>
+      </ul>
+    </nav>
     <div class="filenotification">
       <a>
         <div
