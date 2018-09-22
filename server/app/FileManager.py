@@ -87,7 +87,7 @@ class FileManager:
                 sep=fileRequest['sep'],
                 skipinitialspace=fileRequest['skipinitialspace']
             )
-        return data.to_json()
+        return data.to_json(orient='split')
 
     def build_file_read_filter(self, filters):
         pass

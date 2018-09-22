@@ -44,7 +44,7 @@ def handle_data():
     if request.method == 'POST':
         requestJson = request.get_json()
         reply = HLPR.handle_request(requestJson, 'json')
-    return jsonify(reply)
+    return reply
 
 
 @app.route('/api/files', methods=['POST'])

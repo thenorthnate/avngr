@@ -78,6 +78,8 @@ export default {
       axios.post(`${this.uri}${this.appData.settings.api.data.path}`, payload, this.appData.settings.api.data.headers)
         .then((res) => {
           this.database = res.data;
+          // eslint-disable-next-line
+          console.log(this.database);
         })
         .catch((error) => {
           // eslint-disable-next-line

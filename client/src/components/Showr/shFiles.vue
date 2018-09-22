@@ -3,12 +3,12 @@
     {{ activeFile }}
     <div
     class="notification"
-    v-for="entry in newData"
-    v-bind:key="entry.id"
+    v-for="entry in database"
+    v-bind:key="1"
     v-bind:entry="entry"
     >
       <button class="delete"></button>
-      {{ entry.name }}
+      {{ entry }}
     </div>
   </div>
 </template>
