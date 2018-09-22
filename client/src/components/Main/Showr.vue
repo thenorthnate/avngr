@@ -6,11 +6,15 @@
         <div class="column is-3">
           <smMenu
           v-bind:appData="appData"
+          v-bind:persona="persona"
+          v-on:s-menu="menuSelection"
           />
         </div>
         <div class="column">
           <shFiles
             v-if="persona == 'Loadr'"
+            v-bind:database="database"
+            v-bind:activeFile="activeFile"
           />
           <shTable
             v-if="persona == 'Loadr'"
@@ -38,13 +42,22 @@ export default {
     shPlot,
     shTable,
   },
-  props: ['appData', 'persona'],
+  props: ['appData', 'persona', 'database'],
   data() {
     return {
-      msg: 'AVNGR',
-      option: {},
+      msg: 'hello',
+      activeFile: '',
     };
   },
-
+  methods: {
+    menuSelection(menuData) {
+      if (menuData.type === 'fileSelection') {
+        this.activeFile = menuData.data;
+        this.$emit('ui', menuData);
+      }
+      // eslint-disable-next-line
+      console.log(menuData);
+    },
+  },
 };
 </script>

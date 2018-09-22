@@ -1,13 +1,14 @@
 <template>
   <div>
     <Navbar
-      v-on:file="uploadFile"
       v-on:cp="changePersona"
       v-bind:persona="persona"
     />
     <Showr
     v-bind:appData="appData"
     v-bind:persona="persona"
+    v-bind:database="database"
+    v-on:ui="inputRequest"
     />
   </div>
 </template>
@@ -25,6 +26,11 @@ export default {
   },
   data() {
     return {
+      uri: 'http://localhost:5000',
+      paths: {
+        dmPath: 'http://localhost:5000/data-manager',
+        fuPath: 'http://localhost:5000/file-upload',
+      },
       dmPath: 'http://localhost:5000/data-manager',
       fuPath: 'http://localhost:5000/file-upload',
       persona: 'Loadr',
@@ -38,14 +44,18 @@ export default {
   },
   methods: {
     initializeApp() {
-      const payload = { type: 'file_list' };
-      axios.post(this.dmPath, payload, this.headers.json)
+      axios.get(`${this.uri}/api/init`)
         .then((res) => {
           const tmpData = res.data;
           for (let i = 0; i < res.data.length; i += 1) {
-            tmpData[i].loaded = false;
+            tmpData.fileList[i].loaded = false;
           }
+          tmpData.uri = this.uri;
+          tmpData.paths = this.paths;
+          tmpData.headers = this.headers;
           this.appData = tmpData;
+          // eslint-disable-next-line
+          console.log(this.appData);
         })
         .catch((error) => {
           // eslint-disable-next-line
@@ -55,38 +65,19 @@ export default {
     changePersona(newPersona) {
       this.persona = newPersona;
     },
-    postToDataManager(payload) {
-      axios.post(this.dmPath, payload, this.headers.json)
-        .then((res) => {
-          this.appData = res.data;
-        })
-        .catch((error) => {
-          // eslint-disable-next-line
-          console.error(error);
-        });
+    inputRequest(userInput) {
+      if (userInput.type === 'fileSelection') {
+        // eslint-disable-next-line
+        console.log('this is the input: ', userInput.data);
+        // database = [{'name': 'filename.csv', 'data': [[], [], []]}]
+        const payload = { type: 'load', params: { type: 'init', name: userInput.data } };
+        this.getFileData(payload);
+      }
     },
-    uploadFile(fileList) {
-      if (fileList.length === 0) {
-        return;
-      }
-      const payload = new FormData();
-      for (let i = 0; i < fileList.length; i += 1) {
-        payload.append(`datafiles${i}`, fileList[i]);
-        if ('name' in fileList[i]) {
-          payload.append(`names${i}`, fileList[i].name);
-        } else {
-          payload.append(`names${i}`, '');
-        }
-        if ('size' in fileList[i]) {
-          payload.append(`sizes${i}`, fileList[i].size);
-        } else {
-          payload.append(`sizes${i}`, '');
-        }
-      }
-      axios.post(this.fuPath, payload, this.headers.file)
+    getFileData(payload) {
+      axios.post(`${this.uri}${this.appData.settings.api.data.path}`, payload, this.appData.settings.api.data.headers)
         .then((res) => {
-          this.option = res.data;
-          this.update();
+          this.database = res.data;
         })
         .catch((error) => {
           // eslint-disable-next-line

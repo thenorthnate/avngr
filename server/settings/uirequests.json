@@ -1,0 +1,8 @@
+[
+  {
+    "type": "load",
+    "params": {
+      "type": "init, load"
+    }
+  }
+]

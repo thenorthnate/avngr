@@ -33,8 +33,12 @@ if port is None:
 # def index():
     # return render_template("index.html")
 
+@app.route('/api/init', methods=['GET'])
+def inital_request():
+    return jsonify(HLPR.init_request())
 
-@app.route('/data-manager', methods=['POST'])
+
+@app.route('/api/data', methods=['POST'])
 def handle_data():
     reply = {}
     if request.method == 'POST':
@@ -43,7 +47,7 @@ def handle_data():
     return jsonify(reply)
 
 
-@app.route('/file-upload', methods=['POST'])
+@app.route('/api/files', methods=['POST'])
 def file_upload():
     reply = ""
     if request.method == 'POST':

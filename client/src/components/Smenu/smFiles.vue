@@ -1,43 +1,60 @@
 <template>
   <div>
-    <nav class="breadcrumb" aria-label="breadcrumbs">
-      <ul>
-        <li><a href="#">Data</a></li>
-        <li class="is-active"><a href="#" aria-current="page">Folder 1</a></li>
-      </ul>
-    </nav>
-    <div class="filenotification">
-      <a>
-        <div
-          class="notification"
-          v-for="file in appData"
-          v-bind:key="file.id"
-          v-bind:file="file"
-          v-on:click="activeFile = file.name"
-          v-bind:class="{
-            'is-light': !file.loaded,
-            'is-primary': file.loaded,
-            'is-link': activeFile == file.name,
-          }"
-          v-on:mouseover="activeFile = file.name"
-        >
-          <div class="columns is-vcentered">
-            <div class="column">
-              <p class="title has-text-primary">
-                <span class="icon is-large">
-                  <font-awesome-icon icon="file-excel" />
-                </span>
-              </p>
-            </div>
-            <div class="column">
-              <p class="has-text-weight-light is-size-7 has-text-right">
-                {{ file.name }}
-              </p>
-            </div>
-          </div>
+    <div class="columns is-vcentered">
+      <div class="column">
+        <input class="input" type="text" placeholder="Search Files..." v-model="searchText">
+      </div>
+      <div class="column">
+        <div class="file is-centered">
+          <label class="file-label">
+            <input
+              class="file-input"
+              type="file"
+              name="file"
+              multiple
+              v-on:change="uploadFile($event.target.files)"
+            />
+            <span class="file-cta">
+              <span class="file-icon">
+                <font-awesome-icon icon="upload" />
+              </span>
+              <span class="file-label">
+                Add File
+              </span>
+            </span>
+          </label>
         </div>
-      </a>
+
+      </div>
     </div>
+    <p>{{ searchText }}</p>
+    <br>
+    <ul>
+      <li
+      v-for="file in appData.fileList"
+      v-bind:key="file.id"
+      v-bind:file="file"
+      v-bind:class="{
+        'has-text-light': !file.loaded,
+        'has-text-primary': file.loaded,
+        'has-text-link': activeFile == file.name,
+      }"
+      v-on:mouseover="activeFile = file.name"
+      >
+        <p>
+          <span class="icon">
+            <font-awesome-icon icon="file-excel" />
+          </span>
+          <span>
+            <a
+            v-on:click="$emit('s-menu', {type: 'fileSelection', data: file.name})"
+            >
+              {{ file.name }}
+            </a>
+          </span>
+        </p>
+      </li>
+    </ul>
     <br>
     <div
       v-if="activeFile"
@@ -68,22 +85,46 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'smFiles',
   props: ['appData'],
   data() {
     return {
       activeFile: '',
+      searchText: '',
     };
+  },
+  methods: {
+    uploadFile(fileList) {
+      if (fileList.length === 0) {
+        return;
+      }
+      const payload = new FormData();
+      for (let i = 0; i < fileList.length; i += 1) {
+        payload.append(`datafiles${i}`, fileList[i]);
+        if ('name' in fileList[i]) {
+          payload.append(`names${i}`, fileList[i].name);
+        } else {
+          payload.append(`names${i}`, '');
+        }
+        if ('size' in fileList[i]) {
+          payload.append(`sizes${i}`, fileList[i].size);
+        } else {
+          payload.append(`sizes${i}`, '');
+        }
+      }
+      axios.post(`${this.appData.uri}${this.appData.settings.api.file.path}`, payload, this.appData.headers.file)
+        .then((res) => {
+          // eslint-disable-next-line
+          console.log(res.data);
+        })
+        .catch((error) => {
+          // eslint-disable-next-line
+          console.error(error);
+        });
+    },
   },
 };
 </script>
-
-<style scoped>
-.filenotification {
-  height: 400px;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  word-wrap: break-word;
-}
-</style>

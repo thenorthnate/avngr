@@ -1,4 +1,4 @@
-# File Manager Class
+# File Manager for AVNGR
 # Nathan North
 # Handles all things to do with file management
 
@@ -7,32 +7,90 @@ import pandas
 
 
 class FileManager:
-    def __init__(self):
+    def __init__(self, settings):
+        self.settings = settings
         self.pwd = os.getcwd()
         self.dataDir = self.pwd + "/data/"
+        self.settingsDir = self.pwd + "/settings/"
 
     def get_file_list(self):
         '''Returns a list of all files in the working directory'''
         response = []
         i = 0
         for name in os.listdir(self.dataDir):
-            response.append({'name': name, 'id': i})
-            i += 1
+            if self.check_support(name):
+                response.append({'name': name, 'id': i})
+                i += 1
         return response
+
+    def check_support(self, fileName):
+        for fileType in self.settings['FileManager']['SupportedFileTypes']:
+            if fileName.endswith(fileType):
+                return True
+        return False
 
     def upload_file(self, requestObject):
         '''Uploads files from the users computer to the working directory of the app'''
-        # TODO: Add 1 to file name if it already exists!
+        print(requestObject.form)
         rFiles = requestObject.files
+        i = 0
         for rf in rFiles:
-            rFiles[rf].save(os.path.join(self.dataDir, rFiles[rf].filename))
+            fileName = self.make_no_conflict_filename(requestObject.form['names' + str(i)])
+            rFiles[rf].save(os.path.join(self.dataDir, fileName))
+            i += 1
         return "success"
 
-    def read_file(self, filename):
+    def check_filename(self, proposedName):
+        '''Checks if file name is already in existance'''
+        for name in os.listdir(self.dataDir):
+            if name == proposedName:
+                return False
+        return True
+
+    def make_no_conflict_filename(self, proposedName):
+        '''Appends # to the filename to avoid naming conflicts'''
+        if self.check_filename(proposedName):
+            return proposedName
+
+        nameComponents = proposedName.split('.')
+        i = 0
+        while True:
+            tmpName = ''
+            for j in range(len(nameComponents) - 1):
+                tmpName += nameComponents[j]
+            newName = tmpName + '_' + str(i) + '.' + nameComponents[-1]
+            if self.check_filename(newName):
+                return newName
+            i += 1
+
+    def handle_load_request(self, requestObject):
+        fileRequest = {
+            'fileName': requestObject['params']['name'],
+            'filters': '',
+            'nrows': self.settings['FileManager']['PreviewFileLineCount'],
+            'sep': ',',
+            'skipinitialspace': True,
+            'usecols': ''
+        }
+        if requestObject['params']['type'] == 'init':
+            return self.read_file(fileRequest)
+
+    def read_file(self, fileRequest):
         '''Reads a file into memory'''
-        # fileRequest = {'filename': 'test.csv', 'filters': [{'on': 'date', 'flt': '>', 'value': '2018-6-5'}], 'nrows': 1000, 'sep': ',', 'skipinitialspace': True}
-        data = pandas.read_csv(self.dataDir + filename, skipinitialspace=True)
-        return data
+        # fileRequest = {'filename': 'test.csv', 'filters': [{'on': 'date', 'flt': '>', 'value': '2018-6-5'}], 'nrows': 1000, 'sep': ',', 'skipinitialspace': True, 'usecols': ['a', 'b']}
+        # fileRequest
+        if len(fileRequest['filters']) > 0:
+            pass
+        else:
+            data = pandas.read_csv(self.dataDir + fileRequest['fileName'],
+                nrows=fileRequest['nrows'],
+                sep=fileRequest['sep'],
+                skipinitialspace=fileRequest['skipinitialspace']
+            )
+        return data.to_json()
+
+    def build_file_read_filter(self, filters):
+        pass
 
     def write_file(self, filename):
         pass

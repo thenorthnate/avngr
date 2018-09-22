@@ -9,6 +9,7 @@
             v-bind:opt="opt"
             v-bind:class="{ 'is-active': active == opt.name }"
             v-on:click="active = opt.name"
+            v-if="opt.persona == persona || opt.persona == 'ALL'"
           >
             <a>
               {{ opt.name }}
@@ -19,6 +20,7 @@
       <smFiles
       v-if="active == 'Files'"
       v-bind:appData="appData"
+      v-on:s-menu="$emit('s-menu', $event)"
       />
       <smPlot
       v-else-if="active == 'Plot'"
@@ -37,15 +39,15 @@ export default {
     smFiles,
     smPlot,
   },
-  props: ['appData'],
+  props: ['appData', 'persona'],
   data() {
     return {
       msg: 'AVNGR',
       menuOptions: [
-        { name: 'Files', id: 0 },
-        { name: 'Filter', id: 1 },
-        { name: 'Plot', id: 2 },
-        { name: 'Format', id: 3 },
+        { name: 'Files', persona: 'Loadr', id: 0 },
+        { name: 'Filter', persona: 'Analyzr', id: 1 },
+        { name: 'Plot', persona: 'Plotr', id: 2 },
+        { name: 'Format', persona: 'Plotr', id: 3 },
       ],
       active: 'Files',
     };

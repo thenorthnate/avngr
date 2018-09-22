@@ -67,29 +67,6 @@
 
       <div class="navbar-end">
         <div class="navbar-item">
-
-          <div class="file is-centered">
-            <label class="file-label">
-              <input
-                class="file-input"
-                type="file"
-                name="file"
-                multiple
-                v-on:change="handleFile($event.target.name, $event.target.files)"
-              />
-              <span class="file-cta">
-                <span class="file-icon has-text-info">
-                  <font-awesome-icon icon="upload" />
-                </span>
-                <span class="file-label">
-                  Upload File
-                </span>
-              </span>
-            </label>
-          </div>
-
-        </div>
-        <div class="navbar-item">
           <button class="button">
             <span class="icon">
               <font-awesome-icon icon="cog" />

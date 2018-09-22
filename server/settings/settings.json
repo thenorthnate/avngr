@@ -1,0 +1,28 @@
+{
+  "api": {
+    "data": {
+      "path": "/api/data",
+      "headers": {
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    },
+    "file": {
+      "path": "/api/files",
+      "headers": {
+        "headers": {
+          "Content-Type": "multipart/form-data"
+        } 
+      }
+    }
+  },
+  "FileManager": {
+    "PreviewFileLineCount": 20,
+    "SupportedFileTypes": [
+      ".csv",
+      ".tsv",
+      ".xlsx"
+    ]
+  }
+}
