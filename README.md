@@ -21,3 +21,8 @@ Analyze, Visualize, Navigate, then Go Render
   - Legend
   - Data zoom
 7. Image classification suite (make it easy to classify images for ML)
+
+
+### To Do
+- Include a folder/project name when uploading a new file
+- Only send data to UI for viewing 
