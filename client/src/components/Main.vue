@@ -4,11 +4,17 @@
       v-on:cp="changePersona"
       v-bind:persona="persona"
     />
-    <Showr
+    <mLoadr
+    v-if="persona == 'Loadr'"
     v-bind:appData="appData"
     v-bind:persona="persona"
     v-bind:database="database"
-    v-on:ui="inputRequest"
+    />
+    <mPlotr
+    v-if="persona == 'Plotr'"
+    v-bind:appData="appData"
+    v-bind:persona="persona"
+    v-bind:database="database"
     />
   </div>
 </template>
@@ -17,12 +23,16 @@
 import axios from 'axios';
 import Showr from './Main/Showr';
 import Navbar from './Main/Navbar';
+import mLoadr from './mLoadr';
+import mPlotr from './mPlotr';
 
 export default {
   name: 'Main',
   components: {
     Navbar,
     Showr,
+    mLoadr,
+    mPlotr,
   },
   data() {
     return {

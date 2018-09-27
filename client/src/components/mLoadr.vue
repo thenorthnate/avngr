@@ -1,0 +1,190 @@
+<template>
+  <section class="section">
+    <div class="container is-fluid">
+      <p class="title">{{ persona }}</p>
+      <div class="columns">
+        <div class="column is-3">
+          <div class="box">
+            <!-- Here are the Tabs -->
+            <div class="tabs is-small is-fullwidth">
+              <ul>
+                <li
+                  v-bind:class="{ 'is-active': activeTab == 'Files' }"
+                  v-on:click="activeTab = 'Files'"
+                >
+                  <a>
+                    Files
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Here is the Files Tab -->
+            <div>
+              <div class="columns is-vcentered">
+                <div class="column">
+                  <input
+                  class="input"
+                  type="text"
+                  placeholder="Search Files..."
+                  v-model="searchText"
+                  >
+                </div>
+                <div class="column">
+                  <div class="file is-centered">
+                    <label class="file-label">
+                      <input
+                        class="file-input"
+                        type="file"
+                        name="file"
+                        multiple
+                        v-on:change="uploadFile($event.target.files)"
+                      />
+                      <span class="file-cta">
+                        <span class="file-icon">
+                          <font-awesome-icon icon="upload" />
+                        </span>
+                        <span class="file-label">
+                          Add File
+                        </span>
+                      </span>
+                    </label>
+                  </div>
+
+                </div>
+              </div>
+              <p>{{ searchText }}</p>
+              <br>
+              <ul>
+                <li
+                v-for="file in appData.fileList"
+                v-bind:key="file.id"
+                v-bind:file="file"
+                v-bind:class="{
+                  'has-text-light': !file.loaded,
+                  'has-text-primary': file.loaded,
+                  'has-text-link': activeFile == file.name,
+                }"
+                v-on:mouseover="activeFile = file.name"
+                >
+                  <p>
+                    <span class="icon">
+                      <font-awesome-icon icon="file-excel" />
+                    </span>
+                    <span>
+                      <a
+                      v-on:click="$emit('s-menu', {type: 'fileSelection', data: file.name})"
+                      >
+                        {{ file.name }}
+                      </a>
+                    </span>
+                  </p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="box">
+            <p class="subtitle">
+              {{ activeFile }}
+            </p>
+            <div
+            class="notification"
+            v-for="item in entries"
+            v-bind:key="item.id"
+            v-bind:item="item"
+            v-bind:class="{'is-primary': item.load }"
+            v-on:click="item.load = false"
+            >
+              <div class="columns">
+                <div class="column">
+                  <p class="subtitle is-5">{{ item.name }}</p>
+                </div>
+                <div class="column">
+                  {{ item.data }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+</template>
+
+<script>
+import axios from 'axios';
+
+export default {
+  name: 'mLoadr',
+  props: ['appData', 'persona', 'database'],
+  data() {
+    return {
+      activeTab: 'Files',
+      activeFile: '',
+      userInputOptions: '',
+      loaded: [],
+      searchText: '',
+    };
+  },
+  computed: {
+    entries() {
+      const entries = [];
+      this.genLoaded();
+      for (let i = 0; i < this.database.length; i += 1) {
+        entries.push({
+          name: this.database[i].name,
+          id: i,
+          data: this.database[i].data,
+          load: true,
+        });
+      }
+      return entries;
+    },
+  },
+  methods: {
+    genLoaded() {
+      this.loaded = [];
+      for (let i = 0; i < this.database.length; i += 1) {
+        this.entries.push(true);
+      }
+    },
+    toggleLoad(loaded) {
+      if (loaded) {
+        return false;
+      }
+      return true;
+    },
+    uploadFile(fileList) {
+      if (fileList.length === 0) {
+        return;
+      }
+      const payload = new FormData();
+      for (let i = 0; i < fileList.length; i += 1) {
+        payload.append(`datafiles${i}`, fileList[i]);
+        if ('name' in fileList[i]) {
+          payload.append(`names${i}`, fileList[i].name);
+        } else {
+          payload.append(`names${i}`, '');
+        }
+        if ('size' in fileList[i]) {
+          payload.append(`sizes${i}`, fileList[i].size);
+        } else {
+          payload.append(`sizes${i}`, '');
+        }
+      }
+      axios.post(`${this.appData.uri}${this.appData.settings.api.file.path}`, payload, this.appData.headers.file)
+        .then((res) => {
+          // eslint-disable-next-line
+          console.log(res.data);
+        })
+        .catch((error) => {
+          // eslint-disable-next-line
+          console.error(error);
+        });
+    },
+  },
+};
+</script>

@@ -11,6 +11,8 @@ import {
   faCog,
   faFile,
   faFileExcel,
+  faAngleRight,
+  faAngleDown,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon, FontAwesomeLayers } from '@fortawesome/vue-fontawesome';
 import 'bulma/css/bulma.css';
@@ -27,6 +29,8 @@ library.add(faArrowCircleUp);
 library.add(faCog);
 library.add(faFile);
 library.add(faFileExcel);
+library.add(faAngleRight);
+library.add(faAngleDown);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.component('font-awesome-layers', FontAwesomeLayers);
 
