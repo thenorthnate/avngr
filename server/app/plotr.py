@@ -39,50 +39,49 @@ class Plotr:
         }
 
 
-'''
-const option = {
-title: {
-text: 'Example Chart',
-left: 'center',
-textStyle: {
-fontSize: 20,
-},
-},
-toolbox: {
-show: true,
-feature: {
-saveAsImage: {
-  show: true,
-  title: 'Save',
-  type: 'svg',
-},
-restore: {
-  show: true,
-  title: 'Restore',
-},
-dataZoom: {
-  show: true,
-  title: {
-    zoom: 'Zoom',
-    back: 'Undo',
-  },
-},
-},
-},
-tooltip: {},
-legend: {
-data: ['Sales'],
-right: 'right',
-top: 'middle',
-},
-xAxis: {
-data: ['shirt', 'cardign', 'chiffon shirt', 'pants', 'heels', 'socks'],
-},
-yAxis: {},
-series: [{
-name: 'Sales',
-type: 'bar',
-data: [5, 20, 36, 10, 10, 20],
-}],
-};
-'''
+
+option = {
+    title: {
+        text: 'Example Chart',
+        left: 'center',
+        textStyle: {
+            fontSize: 20,
+        },
+    },
+    toolbox: {
+        show: true,
+        feature: {
+            saveAsImage: {
+              show: true,
+              title: 'Save',
+              type: 'svg',
+            },
+            restore: {
+              show: true,
+              title: 'Restore',
+            },
+            dataZoom: {
+              show: true,
+              title: {
+                zoom: 'Zoom',
+                back: 'Undo',
+              },
+            },
+        },
+    },
+    tooltip: {},
+    legend: {
+    data: ['Sales'],
+    right: 'right',
+    top: 'middle',
+    },
+    xAxis: {
+    data: ['shirt', 'cardign', 'chiffon shirt', 'pants', 'heels', 'socks'],
+    },
+    yAxis: {},
+    series: [{
+    name: 'Sales',
+    type: 'bar',
+    data: [5, 20, 36, 10, 10, 20],
+    }],
+}

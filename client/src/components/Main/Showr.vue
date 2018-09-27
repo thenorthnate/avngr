@@ -8,6 +8,7 @@
           v-bind:appData="appData"
           v-bind:persona="persona"
           v-on:s-menu="menuSelection"
+          v-on:uio="userInputOptions = $event"
           />
         </div>
         <div class="column">
@@ -21,6 +22,7 @@
           />
           <shPlot
             v-else-if="persona == 'Plotr'"
+            v-bind:userInputOptions="userInputOptions"
           />
         </div>
       </div>
@@ -47,6 +49,7 @@ export default {
     return {
       msg: 'hello',
       activeFile: '',
+      userInputOptions: '',
     };
   },
   methods: {
@@ -55,8 +58,6 @@ export default {
         this.activeFile = menuData.data;
         this.$emit('ui', menuData);
       }
-      // eslint-disable-next-line
-      console.log(menuData);
     },
   },
 };

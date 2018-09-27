@@ -25,6 +25,9 @@
       <smPlot
       v-else-if="active == 'Plot'"
       />
+      <smFormat
+      v-else-if="active == 'Format'"
+      />
     </div>
   </div>
 </template>
@@ -32,12 +35,14 @@
 <script>
 import smFiles from './smFiles';
 import smPlot from './smPlot';
+import smFormat from './smFormat';
 
 export default {
   name: 'smMenu',
   components: {
     smFiles,
     smPlot,
+    smFormat,
   },
   props: ['appData', 'persona'],
   data() {

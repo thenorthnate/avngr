@@ -1,14 +1,24 @@
 <template>
   <div class="box">
-    {{ activeFile }}
+    <p class="subtitle">
+      {{ activeFile }}
+    </p>
     <div
     class="notification"
-    v-for="entry in database"
-    v-bind:key="1"
-    v-bind:entry="entry"
+    v-for="item in entries"
+    v-bind:key="item.id"
+    v-bind:item="item"
+    v-bind:class="{'is-primary': item.load }"
+    v-on:click="item.load = false"
     >
-      <button class="delete"></button>
-      {{ entry }}
+      <div class="columns">
+        <div class="column">
+          <p class="subtitle is-5">{{ item.name }}</p>
+        </div>
+        <div class="column">
+          {{ item.data }}
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -19,16 +29,36 @@ export default {
   props: ['database', 'activeFile'],
   data() {
     return {
-      option: {},
+      loaded: [],
     };
   },
   computed: {
-    newData() {
-      const newData = [];
+    entries() {
+      const entries = [];
+      this.genLoaded();
       for (let i = 0; i < this.database.length; i += 1) {
-        newData.push({ name: this.database[i], id: i });
+        entries.push({
+          name: this.database[i].name,
+          id: i,
+          data: this.database[i].data,
+          load: true,
+        });
       }
-      return newData;
+      return entries;
+    },
+  },
+  methods: {
+    genLoaded() {
+      this.loaded = [];
+      for (let i = 0; i < this.database.length; i += 1) {
+        this.entries.push(true);
+      }
+    },
+    toggleLoad(loaded) {
+      if (loaded) {
+        return false;
+      }
+      return true;
     },
   },
 };

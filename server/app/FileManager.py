@@ -4,6 +4,7 @@
 
 import os
 import pandas
+import json
 
 
 class FileManager:
@@ -72,8 +73,17 @@ class FileManager:
             'skipinitialspace': True,
             'usecols': ''
         }
+        data = []
         if requestObject['params']['type'] == 'init':
-            return self.read_file(fileRequest)
+            tmpData = self.read_file(fileRequest).to_dict(orient='list')
+            print('made it')
+            i = 0
+            for item in tmpData:
+                data.append({'name': item, 'data': tmpData[item]})
+                i += 1
+            data = json.dumps(data)
+
+        return data
 
     def read_file(self, fileRequest):
         '''Reads a file into memory'''
@@ -87,7 +97,7 @@ class FileManager:
                 sep=fileRequest['sep'],
                 skipinitialspace=fileRequest['skipinitialspace']
             )
-        return data.to_json(orient='split')
+        return data
 
     def build_file_read_filter(self, filters):
         pass

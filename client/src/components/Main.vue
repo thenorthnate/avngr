@@ -67,8 +67,6 @@ export default {
     },
     inputRequest(userInput) {
       if (userInput.type === 'fileSelection') {
-        // eslint-disable-next-line
-        console.log('this is the input: ', userInput.data);
         // database = [{'name': 'filename.csv', 'data': [[], [], []]}]
         const payload = { type: 'load', params: { type: 'init', name: userInput.data } };
         this.getFileData(payload);
@@ -78,8 +76,6 @@ export default {
       axios.post(`${this.uri}${this.appData.settings.api.data.path}`, payload, this.appData.settings.api.data.headers)
         .then((res) => {
           this.database = res.data;
-          // eslint-disable-next-line
-          console.log(this.database);
         })
         .catch((error) => {
           // eslint-disable-next-line

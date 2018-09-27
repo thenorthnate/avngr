@@ -55,32 +55,6 @@
         </p>
       </li>
     </ul>
-    <br>
-    <div
-      v-if="activeFile"
-      class="notification"
-    >
-      <p class="subtitle">{{ activeFile }}</p>
-      Size: 20KB<br>
-      Headers:<br>
-      <span class="tag is-link">
-        ID
-      </span>
-      <span class="tag is-light">
-        2000r
-      </span>
-      <span class="tag is-info">
-        10c
-      </span>
-      <div class="buttons is-right">
-        <button class="button">
-          <span>Load File </span>
-          <span class="icon has-text-link">
-            <font-awesome-icon icon="arrow-circle-up" />
-          </span>
-        </button>
-      </div>
-    </div>
   </div>
 </template>
 
