@@ -106,6 +106,27 @@
                 </div>
               </div>
             </div>
+
+
+            <table class="table is-striped is-fullwidth is-hoverable">
+              <thead>
+                <tr>
+                  <th class="has-text-primary">Index</th>
+                  <th class="has-text-grey">Age</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th>0</th>
+                  <td>56</td>
+                </tr>
+              </tbody>
+            </table>
+
+
+
+
+
           </div>
 
         </div>
