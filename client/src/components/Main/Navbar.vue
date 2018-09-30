@@ -34,6 +34,13 @@
         >
           Plotr
         </a>
+        <a
+          class="navbar-item"
+          v-bind:class="{'has-text-link': persona == 'Learnr'}"
+          v-on:click="$emit('cp', 'Learnr')"
+        >
+          Learnr
+        </a>
         <div class="navbar-item has-dropdown is-hoverable">
           <a class="navbar-link" href="/documentation/overview/start/">
             Docs

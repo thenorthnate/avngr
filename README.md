@@ -25,4 +25,39 @@ Analyze, Visualize, Navigate, then Go Render
 
 ### To Do
 - Include a folder/project name when uploading a new file
-- Only send data to UI for viewing 
+- Only send data to UI for viewing
+
+
+### Common API For All Requests and Replies?
+Plot Request
+'''json
+{
+  "type": "plot",
+  "info": {
+    "plotType": "bar",
+    "x": "reason code",
+    "series": [{
+      "name": "count"
+    }, {
+      "name": "amount"
+    }]
+  }
+}
+
+'''
+
+Filter Request
+'''json
+{
+  "type": "filter",
+  "info": {
+    "orient": "col"
+    "filters": [{
+      "param": "id",
+      "operator": ">",
+      "value": 3
+    }]
+  }
+}
+
+'''
